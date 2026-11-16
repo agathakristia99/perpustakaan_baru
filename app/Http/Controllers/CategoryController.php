@@ -7,35 +7,37 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    // Menampilkan daftar kategori
     public function index()
     {
-        $categories = Category::all();
+        $categories = [
+            'Novel',
+            'Pendidikan',
+            'Teknologi',
+            'Sejarah',
+            'Fiksi',
+        ];
 
         return view('categories.index', compact('categories'));
     }
 
-    // Menampilkan form tambah kategori
     public function create()
     {
         return view('categories.create');
     }
 
-    // Menyimpan kategori baru
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:categories,name',
-            'description' => 'nullable',
+            'name' => 'required|string|max:255',
         ]);
 
-        Category::create($request->all());
+        Category::create([
+            'name' => $request->name,
+        ]);
 
-        return redirect('/categories')
-            ->with('success', 'Kategori berhasil ditambahkan!');
+        return redirect('/categories');
     }
 
-    // Menampilkan form edit kategori
     public function edit($id)
     {
         $category = Category::findOrFail($id);
@@ -43,30 +45,26 @@ class CategoryController extends Controller
         return view('categories.edit', compact('category'));
     }
 
-    // Memperbarui kategori
     public function update(Request $request, $id)
     {
-        $category = Category::findOrFail($id);
-
         $request->validate([
-            'name' => 'required|unique:categories,name,' . $id,
-            'description' => 'nullable',
+            'name' => 'required|string|max:255',
         ]);
 
-        $category->update($request->all());
+        $category = Category::findOrFail($id);
 
-        return redirect('/categories')
-            ->with('success', 'Kategori berhasil diperbarui!');
+        $category->update([
+            'name' => $request->name,
+        ]);
+
+        return redirect('/categories');
     }
 
-    // Menghapus kategori
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-
         $category->delete();
 
-        return redirect('/categories')
-            ->with('success', 'Kategori berhasil dihapus!');
+        return redirect('/categories');
     }
 }

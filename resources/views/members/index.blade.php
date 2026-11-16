@@ -1,33 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Data Anggota</title>
-</head>
-<body>
-    <h1>Daftar Anggota Perpustakaan</h1>
+@extends('layouts.app')
 
-    <table border="1" cellpadding="10">
-        <tr>
-            <th>No</th>
-            <th>Kode Anggota</th>
-            <th>Nama</th>
-            <th>Email</th>
-            <th>Nomor Telepon</th>
-        </tr>
+@section('title', 'Data Anggota')
 
-        @forelse ($members as $member)
-        <tr>
-            <td>{{ $loop->iteration }}</td>
-            <td>{{ $member->member_code }}</td>
-            <td>{{ $member->name }}</td>
-            <td>{{ $member->email }}</td>
-            <td>{{ $member->phone }}</td>
-        </tr>
-        @empty
-        <tr>
-            <td colspan="5">Belum ada anggota.</td>
-        </tr>
-        @endforelse
+@section('content')
+    <h1>Daftar Anggota</h1>
+
+    <p>Berikut merupakan data anggota perpustakaan.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nomor Anggota</th>
+                <th>Nama Anggota</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @forelse ($members as $index => $member)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $member['number'] }}</td>
+                    <td>{{ $member['name'] }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="3">Belum ada anggota.</td>
+                </tr>
+            @endforelse
+        </tbody>
     </table>
-</body>
-</html>
+@endsection
