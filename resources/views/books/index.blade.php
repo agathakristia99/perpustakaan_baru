@@ -3,37 +3,43 @@
 @section('title', 'Daftar Buku')
 
 @section('content')
-    <h1>Daftar Buku Perpustakaan</h1>
 
-    <p>Berikut merupakan daftar buku yang tersedia di perpustakaan.</p>
+<div class="container">
+    <h1>Daftar Buku</h1>
 
-    <table>
+    <p>Data buku perpustakaan yang tersimpan di database.</p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th>No</th>
+                <th>ID</th>
                 <th>Judul Buku</th>
                 <th>Penulis</th>
+                <th>Kategori</th>
                 <th>Tahun Terbit</th>
-                <th>Detail</th>
+                <th>Stok</th>
             </tr>
         </thead>
 
         <tbody>
             @forelse ($books as $book)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $book['title'] }}</td>
-                    <td>{{ $book['author'] }}</td>
-                    <td>{{ $book['year'] }}</td>
-                    <td>
-                        <a href="/books/{{ $book['id'] }}">Lihat Detail</a>
-                    </td>
+                    <td>{{ $book->id }}</td>
+                    <td>{{ $book->title }}</td>
+                    <td>{{ $book->author }}</td>
+                    <td>{{ $book->category->name ?? '-' }}</td>
+                    <td>{{ $book->year }}</td>
+                    <td>{{ $book->stock }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5">Belum ada data buku.</td>
+                    <td colspan="6" align="center">
+                        Belum ada data buku.
+                    </td>
                 </tr>
             @endforelse
         </tbody>
     </table>
+</div>
+
 @endsection
